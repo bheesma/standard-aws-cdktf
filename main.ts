@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 import  { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 
 class MyStack extends TerraformStack {
@@ -13,12 +13,12 @@ class MyStack extends TerraformStack {
       region: "ap-southeast-2"
     });
 
- /*    const queueName = 'MyQueue2';
-    new sqs.Queue(this, queueName, {
-      queueName: queueName
+    const queueName = 'MyQueue2';
+    new SqsQueue(this, queueName, {
+      name: queueName
     });
 
- */
+
 
   }
 }
