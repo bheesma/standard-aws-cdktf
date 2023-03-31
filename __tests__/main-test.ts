@@ -1,7 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
-// import { Testing } from "cdktf";
+import { Testing } from "cdktf";
+import { MyStack } from "../main"
 
 describe("My CDKTF Application", () => {
   // The tests below are example tests, you can find more information at
@@ -26,36 +27,15 @@ describe("My CDKTF Application", () => {
   //   });
   // });
 
-  // describe("Unit testing using snapshots", () => {
-  //   it("Tests the snapshot", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
+  describe("Unit testing using snapshots", () => {
+    it("Tests the snapshot", () => {
+      const app = Testing.app();
+      const stack = new MyStack (app, "test");
 
-  //     new TestProvider(stack, "provider", {
-  //       accessKey: "1",
-  //     });
 
-  //     new TestResource(stack, "test", {
-  //       name: "my-resource",
-  //     });
-
-  //     expect(Testing.synth(stack)).toMatchSnapshot();
-  //   });
-
-  //   it("Tests a combination of resources", () => {
-  //     expect(
-  //       Testing.synthScope((stack) => {
-  //         new TestDataSource(stack, "test-data-source", {
-  //           name: "foo",
-  //         });
-
-  //         new TestResource(stack, "test-resource", {
-  //           name: "bar",
-  //         });
-  //       })
-  //     ).toMatchInlineSnapshot();
-  //   });
-  // });
+      expect(Testing.synth(stack)).toMatchSnapshot();
+    })
+    });
 
   // describe("Checking validity", () => {
   //   it("check if the produced terraform configuration is valid", () => {

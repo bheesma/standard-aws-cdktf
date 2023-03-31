@@ -3,7 +3,7 @@ import { App, TerraformStack } from "cdktf";
 import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 import  { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 
-class MyStack extends TerraformStack {
+export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
