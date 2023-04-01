@@ -3,67 +3,57 @@
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 import { Testing } from "cdktf";
 import { MyStack } from "../main"
+import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 
 describe("My CDKTF Application", () => {
-  // The tests below are example tests, you can find more information at
-  // https://cdk.tf/testing
-  it.todo("should be tested");
 
   // // All Unit tests test the synthesised terraform code, it does not create real-world resources
-  // describe("Unit testing using assertions", () => {
-  //   it("should contain a resource", () => {
-  //     // import { Image,Container } from "./.gen/providers/docker"
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResource(Container);
+  describe("Unit testing using assertions", () => {
+    it("should contain a resource", () => {
+      const app = Testing.app();
 
-  //     expect(
-  //       Testing.synthScope((scope) => {
-  //         new MyApplicationsAbstraction(scope, "my-app", {});
-  //       })
-  //     ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
-  //   });
-  // });
+      const stack = new MyStack(app, "test");
+
+      expect(
+        Testing.synth((stack))
+      ).toHaveResource(SqsQueue);
+
+      expect(
+        Testing.synth((stack))
+      ).toHaveResourceWithProperties(SqsQueue, {
+        name: "MyQueue2"
+      });
+
+    });
+  });
 
   describe("Unit testing using snapshots", () => {
     it("Tests the snapshot", () => {
       const app = Testing.app();
-      const stack = new MyStack (app, "test");
+      const stack = new MyStack(app, "test");
 
 
       expect(Testing.synth(stack)).toMatchSnapshot();
     })
+  });
+
+  describe("Checking validity", () => {
+    it("check if the produced terraform configuration is valid", () => {
+      const app = Testing.app();
+      const stack = new MyStack(app, "test");
+  
+      // We need to do a full synth to validate the terraform configuration
+      expect(Testing.fullSynth(stack)).toBeValidTerraform();
     });
 
-  // describe("Checking validity", () => {
-  //   it("check if the produced terraform configuration is valid", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
+  });
 
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
+  it("check if this can be planned", () => {
+    const app = Testing.app();
+    const stack = new MyStack(app, "test");
 
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toBeValidTerraform();
-  //   });
+    // We need to do a full synth to plan the terraform configuration
+    expect(Testing.fullSynth(stack)).toPlanSuccessfully();
+  });
 
-  //   it("check if this can be planned", () => {
-  //     const app = Testing.app();
-  //     const stack = new TerraformStack(app, "test");
-
-  //     new TestDataSource(stack, "test-data-source", {
-  //       name: "foo",
-  //     });
-
-  //     new TestResource(stack, "test-resource", {
-  //       name: "bar",
-  //     });
-  //     expect(Testing.fullSynth(app)).toPlanSuccessfully();
-  //   });
-  // });
 });
