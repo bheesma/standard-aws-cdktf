@@ -12,3 +12,5 @@ tsconfig.tsbuildinfo
 
 #custom
 ref.txt
+.DS_STORE
+/code
