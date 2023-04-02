@@ -1,18 +1,23 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
-import { Testing } from "cdktf";
+import { App, Testing } from "cdktf";
 import { MyStack } from "../main"
 import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 
 describe("My CDKTF Application", () => {
 
+  let app: App;
+  let stack: MyStack;
+
+  beforeEach(() => {
+    app = Testing.app();
+    stack = new MyStack(app, 'test');
+  });
+
   // // All Unit tests test the synthesised terraform code, it does not create real-world resources
   describe("Unit testing using assertions", () => {
     it("should contain a resource", () => {
-      const app = Testing.app();
-
-      const stack = new MyStack(app, "test");
 
       expect(
         Testing.synth((stack))
@@ -26,6 +31,7 @@ describe("My CDKTF Application", () => {
 
     });
   });
+
 
   describe("Unit testing using snapshots", () => {
     it("Tests the snapshot", () => {
