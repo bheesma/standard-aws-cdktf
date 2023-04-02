@@ -2,20 +2,21 @@ import { Construct } from "constructs";
 import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 import  { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 
-export class MyQConstruct extends Construct {
-    
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
+export interface StandardSQSProps {
+  queueName: string;
+}
 
-    // define resources here
+export class StandardSQS extends Construct {
+    
+  constructor(scope: Construct, id: string, props: StandardSQSProps) {
+    super(scope, id);
 
     new AwsProvider(this,'aws',{
       region: "ap-southeast-2"
     });
 
-    const queueName = 'MyQueueConstruct';
-    new SqsQueue(this, queueName, {
-      name: queueName
+    new SqsQueue(this, props.queueName, {
+      name: props.queueName
     });
 
 

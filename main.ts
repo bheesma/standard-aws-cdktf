@@ -2,6 +2,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 import  { AwsProvider } from "@cdktf/provider-aws/lib/provider";
+import { LambdaSQSPattern } from "./patterns/LambdaSQSPattern";
 
 export class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -18,6 +19,10 @@ export class MyStack extends TerraformStack {
       name: queueName
     });
 
+    new LambdaSQSPattern(this,'t2',{
+      queueName: "sample",
+      lambdaName: "worker"
+    });
 
 
   }

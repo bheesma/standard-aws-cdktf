@@ -20,7 +20,6 @@
     "node": ">=14.0"
   },
   "dependencies": {
-    "aws-cdk-lib": "^2.70.0",
     "cdktf": "^0.15.5",
     "constructs": "^10.1.291"
   },
