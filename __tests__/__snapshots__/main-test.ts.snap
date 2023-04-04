@@ -13,6 +13,9 @@ exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`
     "aws_sqs_queue": {
       "MyQueue2": {
         "name": "MyQueue2"
+      },
+      "t2_sample_DD7E3492": {
+        "name": "sample"
       }
     }
   },
