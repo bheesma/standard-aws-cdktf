@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import  { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 import { LambdaFunction } from "@cdktf/provider-aws/lib/lambda-function";
 import { IamRole } from "@cdktf/provider-aws/lib/iam-role";
 import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy-attachment";
@@ -13,12 +12,10 @@ export interface StandardLambdaProps {
 
 export class StandardLambda extends Construct {
     
+  function: LambdaFunction;
+
   constructor(scope: Construct, id: string, props: StandardLambdaProps) {
     super(scope, id);
-
-    new AwsProvider(this,'aws',{
-      region: "ap-southeast-2"
-    });
 
     const lambdaRolePolicy = {
       "Version": "2012-10-17",
@@ -62,11 +59,14 @@ export class StandardLambda extends Construct {
       path: folderPath
     });
 
-    new LambdaFunction(this,props.lambdaName, {
+    this.function = new LambdaFunction(this,props.lambdaName, {
       functionName: props.lambdaName,
       role: role.arn,
-      runtime: "Python3.9",
-      sourceCodeHash: lambdaCode.assetHash
+      runtime: "python3.9",
+      sourceCodeHash: lambdaCode.assetHash,
+      filename: fileName,
+      handler: 'lambda_function.lambda_handler'
+      
     });
 
   }

@@ -1,5 +1,4 @@
 import { Construct } from "constructs";
-import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
 import { StandardLambda } from "../constructs/StandardLambda";
 import { StandardSQS } from "../constructs/StandardSQS";
 
@@ -14,13 +13,15 @@ export class LambdaSQSPattern extends Construct {
   constructor(scope: Construct, id: string, props: StandardSQSProps) {
     super(scope, id);
 
-    new StandardLambda(this, 'stanLambda', {
+    const lambda = new StandardLambda(this, 'stanLambda', {
       lambdaName: props.lambdaName
-    })
+    });
 
-    new StandardSQS(this,'stanQueue',{
+    const queue = new StandardSQS(this,'stanQueue',{
       queueName: props.queueName
-    })
+    });
+
+    queue.triggerLambda(lambda);
 
   }
 }
