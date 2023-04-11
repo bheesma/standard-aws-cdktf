@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "version": "1.0.0",
+  "name": "standard-aws-cdktf",
+  "version": "0.1.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
