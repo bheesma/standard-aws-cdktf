@@ -10,7 +10,7 @@ export interface StandardSQSProps {
 /// To create SQS queue and associate it with other resources in AWS.
 export class StandardSQS extends Construct {
 
-  private queue: SqsQueue;
+  readonly queue: SqsQueue;
 
   constructor(scope: Construct, id: string, props: StandardSQSProps) {
     super(scope, id);
