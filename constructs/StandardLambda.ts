@@ -15,7 +15,7 @@ export interface StandardLambdaProps {
 /// To create AWS Lambda and associate it with other resources in AWS
 export class StandardLambda extends Construct {
 
-  function: LambdaFunction;
+  readonly function: LambdaFunction;
 
   constructor(scope: Construct, id: string, props: StandardLambdaProps) {
     super(scope, id);
