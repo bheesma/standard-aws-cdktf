@@ -18,13 +18,15 @@ export class StandardSQS extends Construct {
 
     /// Create dead letter queue
     this.deadLetterQueue = new SqsQueue(this, props.queueName + '-dlq', {
-      name: props.queueName + '-dlq'
+      name: props.queueName + '-dlq',
+      sqsManagedSseEnabled: true
     })
 
 
     /// Create SQS queue
     this.queue = new SqsQueue(this, props.queueName, {
       name: props.queueName,
+      sqsManagedSseEnabled: true,
       redrivePolicy: JSON.stringify({
         deadLetterTargetArn: this.deadLetterQueue.arn,
         maxReceiveCount: 5
@@ -42,4 +44,6 @@ export class StandardSQS extends Construct {
     }
     );
   }
+
+  
 }
