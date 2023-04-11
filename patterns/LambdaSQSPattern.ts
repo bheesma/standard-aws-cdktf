@@ -12,21 +12,24 @@ export interface StandardSQSProps {
 /// event source for invoking the lambda.
 export class LambdaSQSPattern extends Construct {
 
+  readonly patternLambda: StandardLambda;
+  readonly patternQueue: StandardSQS
+
   constructor(scope: Construct, id: string, props: StandardSQSProps) {
     super(scope, id);
 
     //Create Lambda
-    const lambda = new StandardLambda(this, 'stanLambda', {
+    this.patternLambda = new StandardLambda(this, 'stanLambda', {
       lambdaName: props.lambdaName
     });
 
     //Create SQS queue
-    const queue = new StandardSQS(this, 'stanQueue', {
+    this.patternQueue = new StandardSQS(this, 'stanQueue', {
       queueName: props.queueName
     });
 
     //Let the queue trigger the lambda
-    queue.triggerLambda(lambda);
+    this.patternQueue.triggerLambda(this.patternLambda);
 
   }
 }
