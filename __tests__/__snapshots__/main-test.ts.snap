@@ -10,41 +10,44 @@ exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`
     ]
   },
   "resource": {
+    "aws_cloudwatch_log_group": {
+      "SampleLambdaSQS_stanLambda_lambda-log-group_622BD19D": {
+        "name": "/aws/lambda/SampleLambda",
+        "retention_in_days": 30
+      }
+    },
     "aws_iam_role": {
-      "t2_stanLambda_worker-role_67B40C74": {
+      "SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1": {
         "assume_role_policy": "{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Action\\":\\"sts:AssumeRole\\",\\"Principal\\":{\\"Service\\":\\"lambda.amazonaws.com\\"},\\"Effect\\":\\"Allow\\",\\"Sid\\":\\"\\"}]}",
-        "name": "worker-role"
+        "name": "SampleLambda-role"
       }
     },
     "aws_iam_role_policy_attachment": {
-      "t2_stanLambda_lambda-managed-policy_938547BA": {
+      "SampleLambdaSQS_stanLambda_lambda-managed-policy_A4FD00BB": {
         "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-        "role": "\${aws_iam_role.t2_stanLambda_worker-role_67B40C74.name}"
+        "role": "\${aws_iam_role.SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1.name}"
       }
     },
     "aws_lambda_event_source_mapping": {
-      "t2_stanQueue_evmap_2C03164C": {
+      "SampleLambdaSQS_stanQueue_evsourcemap_FFB4C47C": {
         "batch_size": 10,
-        "event_source_arn": "\${aws_sqs_queue.t2_stanQueue_sample_46168E37.arn}",
-        "function_name": "\${aws_lambda_function.t2_stanLambda_worker_7AE9BD9A.function_name}"
+        "event_source_arn": "\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60.arn}",
+        "function_name": "\${aws_lambda_function.SampleLambdaSQS_stanLambda_SampleLambda_129F1478.function_name}"
       }
     },
     "aws_lambda_function": {
-      "t2_stanLambda_worker_7AE9BD9A": {
+      "SampleLambdaSQS_stanLambda_SampleLambda_129F1478": {
         "filename": "lambda_function.py",
-        "function_name": "worker",
+        "function_name": "SampleLambda",
         "handler": "lambda_function.lambda_handler",
-        "role": "\${aws_iam_role.t2_stanLambda_worker-role_67B40C74.arn}",
+        "role": "\${aws_iam_role.SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1.arn}",
         "runtime": "python3.9",
         "source_code_hash": "068DDBCE7039F727D18CD698D7FE31A4"
       }
     },
     "aws_sqs_queue": {
-      "MyQueue2": {
-        "name": "MyQueue2"
-      },
-      "t2_stanQueue_sample_46168E37": {
-        "name": "sample"
+      "SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60": {
+        "name": "SampleQueue"
       }
     }
   },
