@@ -46,8 +46,12 @@ exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`
       }
     },
     "aws_sqs_queue": {
+      "SampleLambdaSQS_stanQueue_SampleQueue-dlq_CE66B5F5": {
+        "name": "SampleQueue-dlq"
+      },
       "SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60": {
-        "name": "SampleQueue"
+        "name": "SampleQueue",
+        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue-dlq_CE66B5F5.arn}\\",\\"maxReceiveCount\\":5}"
       }
     }
   },

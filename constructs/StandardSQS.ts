@@ -11,13 +11,24 @@ export interface StandardSQSProps {
 export class StandardSQS extends Construct {
 
   readonly queue: SqsQueue;
+  readonly deadLetterQueue: SqsQueue;
 
   constructor(scope: Construct, id: string, props: StandardSQSProps) {
     super(scope, id);
 
+    /// Create dead letter queue
+    this.deadLetterQueue = new SqsQueue(this, props.queueName + '-dlq', {
+      name: props.queueName + '-dlq'
+    })
+
+
     /// Create SQS queue
     this.queue = new SqsQueue(this, props.queueName, {
-      name: props.queueName
+      name: props.queueName,
+      redrivePolicy: JSON.stringify({
+        deadLetterTargetArn: this.deadLetterQueue.arn,
+        maxReceiveCount: 5
+      })
     });
 
   }

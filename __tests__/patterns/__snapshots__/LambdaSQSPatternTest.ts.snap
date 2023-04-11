@@ -39,8 +39,12 @@ exports[`LambdaSQSPattern Construct matches the snapshot 1`] = `
       }
     },
     "aws_sqs_queue": {
+      "app_stanQueue_SampleQueue-dlq_0F182B15": {
+        "name": "SampleQueue-dlq"
+      },
       "app_stanQueue_SampleQueue_76D26B69": {
-        "name": "SampleQueue"
+        "name": "SampleQueue",
+        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.app_stanQueue_SampleQueue-dlq_0F182B15.arn}\\",\\"maxReceiveCount\\":5}"
       }
     }
   }
