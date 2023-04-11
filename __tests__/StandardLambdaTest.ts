@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MPL-2.0
 import "cdktf/lib/testing/adapters/jest"; // Load types for expect matchers
 import { Testing } from "cdktf";
-import { SqsQueue } from "@cdktf/provider-aws/lib/sqs-queue";
-import { MyQConstruct } from "../MyQ";
+import { StandardLambda } from "../constructs/StandardLambda";
+import { LambdaFunction } from "@cdktf/provider-aws/lib/lambda-function";
 
 describe("My CDKTF Construct", () => {
 
@@ -12,10 +12,12 @@ describe("My CDKTF Construct", () => {
     it("Construct", () => {
       expect(
         Testing.synthScope((scope) => {
-          new MyQConstruct(scope, "app");
+          new StandardLambda(scope, 'SampleLambda', {
+            lambdaName: 'SampleLambda'
+          });
         })
-      ).toHaveResourceWithProperties(SqsQueue, {
-        name: "MyQueueConstruct"
+      ).toHaveResourceWithProperties(LambdaFunction, {
+        function_name: "SampleLambda"
       });
     })
   });
@@ -24,7 +26,9 @@ describe("My CDKTF Construct", () => {
     it("Tests the snapshot", () => {
 
       expect(Testing.synthScope((scope) => {
-        new MyQConstruct(scope, "app");
+        new StandardLambda(scope, 'SampleLambda', {
+          lambdaName: 'SampleLambda'
+        });
       })).toMatchSnapshot();
 
     })

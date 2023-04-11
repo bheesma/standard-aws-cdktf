@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`My CDKTF Construct Unit testing using snapshots Tests the snapshot 1`] = `
+"{
+  "resource": {
+    "aws_sqs_queue": {
+      "app_SampleQueue_78EA3415": {
+        "name": "SampleQueue"
+      }
+    }
+  }
+}"
+`;
