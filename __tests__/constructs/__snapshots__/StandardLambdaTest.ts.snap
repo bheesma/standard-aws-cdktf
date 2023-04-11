@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StandardLambda Construct tests the snapshot 1`] = `
+exports[`StandardLambda Construct matches the snapshot 1`] = `
 "{
   "resource": {
     "aws_cloudwatch_log_group": {
