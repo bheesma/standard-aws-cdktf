@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`My CDKTF Construct Unit testing using snapshots Tests the snapshot 1`] = `
+exports[`StandardSQS Construct matches the snapshot 1`] = `
 "{
   "resource": {
     "aws_sqs_queue": {
