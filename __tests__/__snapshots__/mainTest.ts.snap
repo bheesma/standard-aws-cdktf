@@ -2,6 +2,27 @@
 
 exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`] = `
 "{
+  "data": {
+    "aws_iam_policy_document": {
+      "SampleLambdaSQS_stanQueue_lambda_sqs_policy_72034FB8": {
+        "statement": [
+          {
+            "actions": [
+              "sqs:SendMessage",
+              "sqs:ReceiveMessage",
+              "sqs:DeleteMessage",
+              "sqs:GetQueueAttributes",
+              "sqs:ChangeMessageVisibility"
+            ],
+            "effect": "Allow",
+            "resources": [
+              "\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60.arn}"
+            ]
+          }
+        ]
+      }
+    }
+  },
   "provider": {
     "aws": [
       {
@@ -16,6 +37,12 @@ exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`
         "retention_in_days": 30
       }
     },
+    "aws_iam_policy": {
+      "SampleLambdaSQS_stanQueue_sqs-policy_A31ADEDC": {
+        "name": "LambdaSQSPolicy",
+        "policy": "\${data.aws_iam_policy_document.SampleLambdaSQS_stanQueue_lambda_sqs_policy_72034FB8.json}"
+      }
+    },
     "aws_iam_role": {
       "SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1": {
         "assume_role_policy": "{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Action\\":\\"sts:AssumeRole\\",\\"Principal\\":{\\"Service\\":\\"lambda.amazonaws.com\\"},\\"Effect\\":\\"Allow\\",\\"Sid\\":\\"\\"}]}",
@@ -26,32 +53,44 @@ exports[`My CDKTF Application Unit testing using snapshots Tests the snapshot 1`
       "SampleLambdaSQS_stanLambda_lambda-managed-policy_A4FD00BB": {
         "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
         "role": "\${aws_iam_role.SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1.name}"
+      },
+      "SampleLambdaSQS_stanQueue_execution-role-policy-attachment_1292321F": {
+        "depends_on": [
+          "aws_iam_policy.SampleLambdaSQS_stanQueue_sqs-policy_A31ADEDC"
+        ],
+        "policy_arn": "\${aws_iam_policy.SampleLambdaSQS_stanQueue_sqs-policy_A31ADEDC.arn}",
+        "role": "\${aws_iam_role.SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1.name}"
       }
     },
     "aws_lambda_event_source_mapping": {
       "SampleLambdaSQS_stanQueue_evsourcemap_FFB4C47C": {
         "batch_size": 10,
+        "depends_on": [
+          "aws_iam_role_policy_attachment.SampleLambdaSQS_stanQueue_execution-role-policy-attachment_1292321F"
+        ],
         "event_source_arn": "\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60.arn}",
         "function_name": "\${aws_lambda_function.SampleLambdaSQS_stanLambda_SampleLambda_129F1478.function_name}"
       }
     },
     "aws_lambda_function": {
       "SampleLambdaSQS_stanLambda_SampleLambda_129F1478": {
-        "filename": "lambda_function.py",
+        "filename": "assets/SampleLambdaSQS_stanLambda_asset_349AC5D8/A004FBF4B54E411C41147BB16FD0A68B/archive.zip",
         "function_name": "SampleLambda",
         "handler": "lambda_function.lambda_handler",
         "role": "\${aws_iam_role.SampleLambdaSQS_stanLambda_SampleLambda-role_58A7A2D1.arn}",
         "runtime": "python3.9",
-        "source_code_hash": "068DDBCE7039F727D18CD698D7FE31A4"
+        "source_code_hash": "A004FBF4B54E411C41147BB16FD0A68B"
       }
     },
     "aws_sqs_queue": {
       "SampleLambdaSQS_stanQueue_SampleQueue-dlq_CE66B5F5": {
-        "name": "SampleQueue-dlq"
+        "name": "SampleQueue-dlq",
+        "sqs_managed_sse_enabled": true
       },
       "SampleLambdaSQS_stanQueue_SampleQueue_8F74EA60": {
         "name": "SampleQueue",
-        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue-dlq_CE66B5F5.arn}\\",\\"maxReceiveCount\\":5}"
+        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.SampleLambdaSQS_stanQueue_SampleQueue-dlq_CE66B5F5.arn}\\",\\"maxReceiveCount\\":5}",
+        "sqs_managed_sse_enabled": true
       }
     }
   },

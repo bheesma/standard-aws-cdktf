@@ -19,6 +19,12 @@ describe("StandardSQS Construct", () => {
     });
   })
 
+  it("generates SQS Dead Letter queue with the name", () => {
+    expect(synthedQueue).toHaveResourceWithProperties(SqsQueue, {
+      name: "SampleQueue-dlq"
+    });
+  })
+
   it("matches the snapshot", () => {
     expect(synthedQueue).toMatchSnapshot();
   })

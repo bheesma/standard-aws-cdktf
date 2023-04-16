@@ -16,6 +16,7 @@ export interface StandardLambdaProps {
 export class StandardLambda extends Construct {
 
   readonly function: LambdaFunction;
+  readonly role: IamRole;
 
   constructor(scope: Construct, id: string, props: StandardLambdaProps) {
     super(scope, id);
@@ -36,7 +37,7 @@ export class StandardLambda extends Construct {
     };
 
     // New role for Lambda
-    const role = new IamRole(this, props.lambdaName + "-role", {
+    this.role = new IamRole(this, props.lambdaName + "-role", {
       name: props.lambdaName + "-role",
       assumeRolePolicy: JSON.stringify(lambdaRolePolicy)
     });
@@ -44,7 +45,7 @@ export class StandardLambda extends Construct {
     // Add basic lambda execution policy
     new IamRolePolicyAttachment(this, "lambda-managed-policy", {
       policyArn: 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole',
-      role: role.name
+      role: this.role.name
     });
 
     // new CloudWatch Log group
@@ -57,9 +58,9 @@ export class StandardLambda extends Construct {
     // TODO: Accept the code fiel as parameter.
     const lambdaDefaultcode =
       `
-    def lambda_handler(event, context):
-      print('Hello, world!')
-    `
+def lambda_handler(event, context):
+  print('Hello, world!')
+      `
 
     ///Prepare the lambda code
     const fileName = 'lambda_function.py';
@@ -79,10 +80,10 @@ export class StandardLambda extends Construct {
     /// TODO: Parameterise as required
     this.function = new LambdaFunction(this, props.lambdaName, {
       functionName: props.lambdaName,
-      role: role.arn,
+      role: this.role.arn,
       runtime: "python3.9",
       sourceCodeHash: lambdaCode.assetHash,
-      filename: fileName,
+      filename: lambdaCode.path,
       handler: 'lambda_function.lambda_handler'
 
     });

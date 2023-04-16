@@ -2,11 +2,38 @@
 
 exports[`LambdaSQSPattern Construct matches the snapshot 1`] = `
 "{
+  "data": {
+    "aws_iam_policy_document": {
+      "app_stanQueue_lambda_sqs_policy_A0E44B47": {
+        "statement": [
+          {
+            "actions": [
+              "sqs:SendMessage",
+              "sqs:ReceiveMessage",
+              "sqs:DeleteMessage",
+              "sqs:GetQueueAttributes",
+              "sqs:ChangeMessageVisibility"
+            ],
+            "effect": "Allow",
+            "resources": [
+              "\${aws_sqs_queue.app_stanQueue_SampleQueue_76D26B69.arn}"
+            ]
+          }
+        ]
+      }
+    }
+  },
   "resource": {
     "aws_cloudwatch_log_group": {
       "app_stanLambda_lambda-log-group_4CF5D439": {
         "name": "/aws/lambda/SampleLambda",
         "retention_in_days": 30
+      }
+    },
+    "aws_iam_policy": {
+      "app_stanQueue_sqs-policy_F987C306": {
+        "name": "LambdaSQSPolicy",
+        "policy": "\${data.aws_iam_policy_document.app_stanQueue_lambda_sqs_policy_A0E44B47.json}"
       }
     },
     "aws_iam_role": {
@@ -19,32 +46,44 @@ exports[`LambdaSQSPattern Construct matches the snapshot 1`] = `
       "app_stanLambda_lambda-managed-policy_031CB254": {
         "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
         "role": "\${aws_iam_role.app_stanLambda_SampleLambda-role_E5EC063D.name}"
+      },
+      "app_stanQueue_execution-role-policy-attachment_88297A78": {
+        "depends_on": [
+          "aws_iam_policy.app_stanQueue_sqs-policy_F987C306"
+        ],
+        "policy_arn": "\${aws_iam_policy.app_stanQueue_sqs-policy_F987C306.arn}",
+        "role": "\${aws_iam_role.app_stanLambda_SampleLambda-role_E5EC063D.name}"
       }
     },
     "aws_lambda_event_source_mapping": {
       "app_stanQueue_evsourcemap_3A244453": {
         "batch_size": 10,
+        "depends_on": [
+          "aws_iam_role_policy_attachment.app_stanQueue_execution-role-policy-attachment_88297A78"
+        ],
         "event_source_arn": "\${aws_sqs_queue.app_stanQueue_SampleQueue_76D26B69.arn}",
         "function_name": "\${aws_lambda_function.app_stanLambda_SampleLambda_7FC65C63.function_name}"
       }
     },
     "aws_lambda_function": {
       "app_stanLambda_SampleLambda_7FC65C63": {
-        "filename": "lambda_function.py",
+        "filename": "assets/app_stanLambda_asset_A32CC4EE/A004FBF4B54E411C41147BB16FD0A68B/archive.zip",
         "function_name": "SampleLambda",
         "handler": "lambda_function.lambda_handler",
         "role": "\${aws_iam_role.app_stanLambda_SampleLambda-role_E5EC063D.arn}",
         "runtime": "python3.9",
-        "source_code_hash": "068DDBCE7039F727D18CD698D7FE31A4"
+        "source_code_hash": "A004FBF4B54E411C41147BB16FD0A68B"
       }
     },
     "aws_sqs_queue": {
       "app_stanQueue_SampleQueue-dlq_0F182B15": {
-        "name": "SampleQueue-dlq"
+        "name": "SampleQueue-dlq",
+        "sqs_managed_sse_enabled": true
       },
       "app_stanQueue_SampleQueue_76D26B69": {
         "name": "SampleQueue",
-        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.app_stanQueue_SampleQueue-dlq_0F182B15.arn}\\",\\"maxReceiveCount\\":5}"
+        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.app_stanQueue_SampleQueue-dlq_0F182B15.arn}\\",\\"maxReceiveCount\\":5}",
+        "sqs_managed_sse_enabled": true
       }
     }
   }

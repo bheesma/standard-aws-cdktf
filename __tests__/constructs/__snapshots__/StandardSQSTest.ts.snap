@@ -5,11 +5,13 @@ exports[`StandardSQS Construct matches the snapshot 1`] = `
   "resource": {
     "aws_sqs_queue": {
       "app_SampleQueue-dlq_7A732911": {
-        "name": "SampleQueue-dlq"
+        "name": "SampleQueue-dlq",
+        "sqs_managed_sse_enabled": true
       },
       "app_SampleQueue_78EA3415": {
         "name": "SampleQueue",
-        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.app_SampleQueue-dlq_7A732911.arn}\\",\\"maxReceiveCount\\":5}"
+        "redrive_policy": "{\\"deadLetterTargetArn\\":\\"\${aws_sqs_queue.app_SampleQueue-dlq_7A732911.arn}\\",\\"maxReceiveCount\\":5}",
+        "sqs_managed_sse_enabled": true
       }
     }
   }
