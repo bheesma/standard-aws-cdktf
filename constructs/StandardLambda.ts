@@ -82,10 +82,8 @@ def lambda_handler(event, context):
       functionName: props.lambdaName,
       role: this.role.arn,
       runtime: "python3.9",
-      sourceCodeHash: lambdaCode.assetHash,
       filename: lambdaCode.path,
       handler: 'lambda_function.lambda_handler'
-
     });
 
   }
